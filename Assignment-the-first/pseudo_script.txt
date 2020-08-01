@@ -1,0 +1,110 @@
+### Pseudocoding for demultiplexing project from Illumina sequening reads.
+
+- Use this function to filter out the low quality index reads. 
+FUNCTION - CONVERT PHRED SCORE
+def convert_phred(qscore):
+    """
+    This function will convert the quality score from ASCII -33 to an integer.
+    Example: (ASCII-A = 65) - 33 = 32
+    """
+    return(score)
+
+- Initialize a list of indexes used in the experiment.
+    Name this list index_list
+
+FUNCTION - REVERSE COMPLEMENT
+def reverse_complement(sequence):
+    """
+    This function will take a sequence string and make a reverse complement of it.
+    Example: 
+    sequence    reverse complement
+    GTAGCGTA    TACGCTAC
+    """
+    - Create a dictionary of possible nucleotide base pairings. Make N equal itself.
+        A:T, T:A, G:C, C:G, N:N 
+    - Replace the letter in the sequence string with its complement base.
+    - Reverse the order of the complement string. (hint... [::-1])
+    return(sequence)
+
+- Initialize a list of index pairs containing the indexes that properly matched.
+    Name this list matched_index_list. Contents will be tuples.
+    In the tuple pair (x,y):
+        x is the sequence from the index_list
+        y is the reverse complement of x
+            Call the reverse_complement function to make y.
+
+- Import itertools
+FUNCTION - MAKE ALL INDEX HOPPING COMBINATIONS
+def populate_combinations(index_list, r = length of index_list):
+    """
+    This function will be used to populate the hopped_index_list with all possible combinations of index hopping as a tuple pair (x,y).
+    """
+    - Use the permutations method in itertools to create this function.
+    - Call the reverse_complement function to make the second in the index pair look like R3 actually would.
+        Example:
+        (ATCATGCG,reverse_complement(index generated from permutations))
+    return(permutations)
+
+FUNCTION - CREATE FILES FOR MATCHED INDEX PAIRS 
+def create_files('R1', 'R4', 'index1', 'index2', ... , repeat=1):
+    """
+    This function will create and name files for R1 and R4 reads with matching index pairs.
+    """
+    - Use the product method in itertools to create this function.
+    return(out_files)
+
+- Initialize a list of matched index file names.
+    Name this list matched_index_files
+    Call the create_files function.
+    Append the out file names to this list.
+
+- Initialize a list of tuples containing the indexes that unmatched/hopped.
+    Name this list hopped_index_list
+
+- Fill hopped_index_list with the possible combinations.
+    Call the function populate_combinations(permutations)
+
+- Import library_name.
+- Create an in-file library of all 4 original FASTQ files using the import library_name.
+    Specify the file locations using the absolute path.
+
+- Import glob.
+- Open the FASTQ file library using library_name. Name this library in_files using glob.
+    - Initialize a list to hold each record to iterate through the files record by record.
+        Name this list as record_list.
+
+    - Loop through the files in the file library, add it to a variable data, then close the files.
+        - Read 4 lines (1 record) of data at a time from each file.
+            Append the whole record from each file to record_list.
+            Extract and rename the header of R1. Split it based on the spaces between the strings.
+            Extract and rename the header of R4. Split it based on the spaces between the strings.
+            Extract and rename the index sequence read from R2.
+            Call the function convert_phred(R2_index). Name this index_score.
+            Extract and rename the index sequence read from R3.
+            Call the function convert_phred(R3_index). Name this index_score.
+            Make a tuple pair of the index sequence reads. Example: (GTAGCGTA,TACGCTAC).
+            Add the tuple pair to the end of the R1 header.
+            Add the tuple pair to the end of the R4 header.
+            
+            - Iterate over the new header line to find the tuple pair.
+                - If R2_index or R3_index of the tuple pairs contain 1 N:
+                    For R2: write the record to a new file made for R1 low quality index reads
+                    For R3: write the record to a new file made for R4 low quality index reads
+                - Else:
+                    Average the quality scores for the R2_index and R3_index.
+                    - If the average quality scores are less than 30 or contains at least 1 N:
+                        Write the record to a new file made for R1 low quality index reads.
+                        Write the record to a new file made for R4 low quality index reads.
+                    - Else:
+                        - If the tuple pair is in the matched_index_list:
+                            For R1 match:
+                                Write the 1st record in record_list to a new file made for R1 and that index match.
+                                *** See list of possible names (matched_index_files)
+                            For R4 match:
+                                Write the 4th record in record_list to a new file made for R4 and that index match.
+                                *** See list of possible names (matched_index_files)
+                        - If/else the tuple pair is in the hopped_index_list:
+                            For R1 and R4:
+                            Write the 1strecord to a new file made for R1 unmatched indexes.
+                Clear the record_list.
+
