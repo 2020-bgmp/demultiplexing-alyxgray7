@@ -12,8 +12,24 @@
 
 2. Per-base NT distribution
     1. Use markdown to insert your 4 histograms here.
-    2. ```Your answer here```
-    3. ```Your answer here```
+    ![read1](.png)
+    ![index1](.png)
+    ![index2](.png)
+    ![read2](.png)
+    2. 
+    ```
+    $ zcat 1294_S1_L008_R2_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l
+    3976613
+    ```
+    3. 
+    ```
+    $ zcat 1294_S1_L008_R3_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l
+    3328051
+    ```
+    Challenge: 
+    ```
+    $ zcat 1294_S1_L008_R2_001.fastq.gz 1294_S1_L008_R3_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l
+    ```
     
 ## Part 2
 1. Define the problem
