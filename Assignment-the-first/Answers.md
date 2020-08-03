@@ -12,10 +12,10 @@
 
 2. Per-base NT distribution
     1. Use markdown to insert your 4 histograms here.
-    ![read1](.png)
-    ![index1](.png)
-    ![index2](.png)
-    ![read2](.png)
+    ![read1](https://github.com/2020-bgmp/demultiplexing-alyxgray7/blob/master/Assignment-the-first/Distribution_R1.png)
+    ![index1](https://github.com/2020-bgmp/demultiplexing-alyxgray7/blob/master/Assignment-the-first/Distribution_R2.png)
+    ![index2](https://github.com/2020-bgmp/demultiplexing-alyxgray7/blob/master/Assignment-the-first/Distribution_R3.png)
+    ![read2](https://github.com/2020-bgmp/demultiplexing-alyxgray7/blob/master/Assignment-the-first/Distribution_R4.png)
     2. 
     ```
     $ zcat 1294_S1_L008_R2_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l
